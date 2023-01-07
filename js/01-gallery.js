@@ -7,7 +7,7 @@ let instance
 createImages(galleryItems)
 
 gallery.addEventListener("click", createModalImg)
-gallery.addEventListener("keydown", delateModalImg)
+
 
 function createImages(e) {
    const images = e.reduce ((arr,{ preview, original, description }) => {
@@ -21,15 +21,18 @@ function createImages(e) {
 }
 
 
-function delateModalImg({key}) {    
+function delateModalImg({ key }) {   
+    
     if (key === "Escape") {        
         instance.close()
+        gallery.removeEventListener("keydown", delateModalImg)   
     }
+    
 }
 
 function createModalImg(e) {    
     e.preventDefault()
      instance = basicLightbox.create(`<img src="${e.target.dataset.source}" >`)
     instance.show() 
-        
+    gallery.addEventListener("keydown", delateModalImg)    
 }
